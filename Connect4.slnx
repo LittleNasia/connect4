@@ -1,0 +1,15 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/Connect4.Wpf/Connect4.Wpf.csproj" />
+    <Project Path="src/Connect4.Interop/Connect4.Interop.csproj" />
+  </Folder>
+  <Folder Name="/native/">
+    <Project Path="native/Connect4Engine/Connect4Engine.vcxproj" Id="071cab6b-0cbc-47bc-b51a-78d935fd96e5" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Connect4.Tests/Connect4.Tests.csproj" />
+  </Folder>
+</Solution>

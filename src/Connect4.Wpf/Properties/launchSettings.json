@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Connect4.Wpf": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

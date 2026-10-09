@@ -1,0 +1,14 @@
+bin/
+obj/
+artifacts/
+out/
+
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+
+TestResults/
+*.trx
+coverage*.xml

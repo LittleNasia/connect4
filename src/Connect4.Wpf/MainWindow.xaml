@@ -1,0 +1,112 @@
+<Window x:Class="Connect4.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Connect 4"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        Background="#F3F4F6">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="HoleBrush" Color="#F3F4F6" />
+        <SolidColorBrush x:Key="RedBrush" Color="#DC2626" />
+        <SolidColorBrush x:Key="YellowBrush" Color="#FACC15" />
+
+        <Style x:Key="ColumnButton" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Highlight" Background="Transparent" CornerRadius="8" Padding="2">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Highlight" Property="Background" Value="#30FFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Highlight" Property="Background" Value="#50FFFFFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CellStyle" TargetType="Ellipse">
+            <Setter Property="Width" Value="64" />
+            <Setter Property="Height" Value="64" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="Stroke" Value="#1E40AF" />
+            <Setter Property="StrokeThickness" Value="2" />
+            <Setter Property="Fill" Value="{StaticResource HoleBrush}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Owner}" Value="1">
+                    <Setter Property="Fill" Value="{StaticResource RedBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Owner}" Value="2">
+                    <Setter Property="Fill" Value="{StaticResource YellowBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="SideIndicatorStyle" TargetType="Ellipse">
+            <Setter Property="Width" Value="22" />
+            <Setter Property="Height" Value="22" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="Stroke" Value="#1E40AF" />
+            <Setter Property="StrokeThickness" Value="2" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Fill" Value="{StaticResource HoleBrush}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SideToMove}" Value="1">
+                    <Setter Property="Fill" Value="{StaticResource RedBrush}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SideToMove}" Value="2">
+                    <Setter Property="Fill" Value="{StaticResource YellowBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Margin="16">
+
+        <TextBlock Text="{Binding StatusText}"
+                   FontSize="20" FontWeight="SemiBold"
+                   HorizontalAlignment="Center" Margin="0,0,0,12" />
+
+        <Border Background="#1D4ED8" CornerRadius="12" Padding="8">
+            <ItemsControl ItemsSource="{Binding Columns}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Style="{StaticResource ColumnButton}"
+                                Command="{Binding DataContext.DropCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                CommandParameter="{Binding Index}">
+                            <ItemsControl ItemsSource="{Binding Cells}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Ellipse Style="{StaticResource CellStyle}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <DockPanel Margin="0,12,0,0" LastChildFill="False">
+            <TextBlock Text="Next move:" VerticalAlignment="Center" Margin="0,0,10,0" />
+            <Ellipse Style="{StaticResource SideIndicatorStyle}" />
+            <TextBlock Text="{Binding SideToMoveText}" FontWeight="SemiBold" VerticalAlignment="Center" />
+            <Button DockPanel.Dock="Right" Content="New game" Command="{Binding NewGameCommand}" Padding="14,4" />
+        </DockPanel>
+
+    </StackPanel>
+</Window>
